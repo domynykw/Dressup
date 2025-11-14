@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+
+    <!-- Background -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M0,0h512v512h-512z" />
+
+    <!-- Top crown of the closet -->
+    <path
+        android:fillColor="#0F4C89"
+        android:pathData="M152,92h208c7.7,0 14,6.3 14,14v26H138v-26c0-7.7 6.3-14 14-14z" />
+
+    <!-- Bottom plinth -->
+    <path
+        android:fillColor="#0F4C89"
+        android:pathData="M124,388h264v44H124z" />
+
+    <!-- Left foot -->
+    <path
+        android:fillColor="#0F4C89"
+        android:pathData="M112,432h60v28H112z" />
+
+    <!-- Right foot -->
+    <path
+        android:fillColor="#0F4C89"
+        android:pathData="M340,432h60v28H340z" />
+
+    <!-- Central frame -->
+    <path
+        android:fillColor="#114F8F"
+        android:pathData="M152,118h208c7.7,0 14,6.3 14,14v260H138V132c0-7.7 6.3-14 14-14z" />
+
+    <!-- Left open door -->
+    <path
+        android:fillColor="#1C63AA"
+        android:pathData="M82,140l70,-18v260l-70,18c-10.3,2.6 -18,-4.2 -18,-14.9V154.9c0-10.7 7.7-17.5 18-14.9z" />
+
+    <!-- Right open door -->
+    <path
+        android:fillColor="#1C63AA"
+        android:pathData="M430,140l-70,-18v260l70,18c10.3,2.6 18,-4.2 18,-14.9V154.9c0-10.7 -7.7-17.5 -18-14.9z" />
+
+    <!-- Door outlines -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M152,118h208c7.7,0 14,6.3 14,14v260H138V132c0-7.7 6.3-14 14-14z"
+        android:strokeColor="#0A3560"
+        android:strokeWidth="10" />
+
+    <!-- Interior shadow -->
+    <path
+        android:fillColor="#081D3B"
+        android:pathData="M184,150h144c6.6,0 12,5.4 12,12v214H172V162c0-6.6 5.4-12 12-12z" />
+
+    <!-- Inner frame highlight -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M184,150h144c6.6,0 12,5.4 12,12v214H172V162c0-6.6 5.4-12 12-12z"
+        android:strokeColor="#1E6DB9"
+        android:strokeWidth="8" />
+
+    <!-- Circuit trunk -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M256,344V192"
+        android:strokeColor="#2F7DC5"
+        android:strokeWidth="14"
+        android:strokeLineCap="round" />
+
+    <!-- Circuit branches -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M256,232l-52,52"
+        android:strokeColor="#2F7DC5"
+        android:strokeWidth="12"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M256,232l52,52"
+        android:strokeColor="#2F7DC5"
+        android:strokeWidth="12"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M228,288l-36,36"
+        android:strokeColor="#2F7DC5"
+        android:strokeWidth="10"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M284,288l36,36"
+        android:strokeColor="#2F7DC5"
+        android:strokeWidth="10"
+        android:strokeLineCap="round" />
+
+    <!-- Circuit buds -->
+    <path
+        android:fillColor="#2F7DC5"
+        android:pathData="M256,180a18,18 0 1,0 0.1,0z" />
+    <path
+        android:fillColor="#2F7DC5"
+        android:pathData="M204,284a16,16 0 1,0 0.1,0z" />
+    <path
+        android:fillColor="#2F7DC5"
+        android:pathData="M308,284a16,16 0 1,0 0.1,0z" />
+    <path
+        android:fillColor="#2F7DC5"
+        android:pathData="M180,324a14,14 0 1,0 0.1,0z" />
+    <path
+        android:fillColor="#2F7DC5"
+        android:pathData="M332,324a14,14 0 1,0 0.1,0z" />
+
+    <!-- Door handles -->
+    <path
+        android:fillColor="#E6EFF9"
+        android:pathData="M134,248a10,10 0 1,0 20,0 10,10 0 1,0 -20,0z" />
+    <path
+        android:fillColor="#E6EFF9"
+        android:pathData="M358,248a10,10 0 1,0 20,0 10,10 0 1,0 -20,0z" />
+</vector>
