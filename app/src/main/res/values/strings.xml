@@ -1,0 +1,243 @@
+<resources>
+    <string name="app_name">DressUp</string>
+    <string name="destination_closet">Szafa</string>
+    <string name="destination_stylings">Styl</string>
+    <string name="destination_suitcase">Podróż</string>
+    <string name="destination_calendar">Kalendarz</string>
+    <string name="destination_feed">Feed</string>
+    <string name="destination_profile">Profil</string>
+    <string name="destination_shop">Sklep</string>
+    <string name="destination_settings">Ustawienia</string>
+    <string name="accessibility_settings">Przejdź do ustawień</string>
+    <string name="accessibility_brand_logo">Logo DressUp</string>
+    <string name="splash_tagline">Twórz idealne zestawy na każdą okazję</string>
+    <string name="settings_placeholder">Ustawienia personalizacji będą dostępne wkrótce.</string>
+    <string name="settings_profile_section">Twój profil</string>
+    <string name="settings_close">Zamknij</string>
+
+    <!-- Closet -->
+    <string name="closet_title">Szafa</string>
+    <string name="closet_subtitle">Zarządzaj swoimi ubraniami</string>
+    <string name="closet_section_add_title">Dodaj ubranie</string>
+    <string name="closet_add_title">Dodaj pierwsze ubranie</string>
+    <string name="closet_add_title_existing">Dodaj nowe ubranie</string>
+    <string name="closet_add_subtitle">Zrób zdjęcie lub wybierz z galerii</string>
+    <string name="closet_add_action">Dodaj ubranie</string>
+    <string name="action_add_from_camera">📷 Zrób zdjęcie</string>
+    <string name="action_add_from_gallery">🖼️ Wybierz z galerii</string>
+    <string name="closet_item_photo_content_description">Zdjęcie elementu garderoby</string>
+    <string name="closet_camera_permission_denied">Aby zrobić zdjęcie, udziel aplikacji dostępu do aparatu.</string>
+    <string name="closet_categories_title">Kategorie</string>
+    <string name="closet_section_wardrobe_title">Twoja szafa</string>
+    <string name="closet_empty_title">Twoja szafa jest pusta</string>
+    <string name="closet_empty_subtitle">Dodaj ubrania, aby zobaczyć propozycje stylizacji</string>
+    <string name="closet_add_sheet_title">Wybierz źródło zdjęcia</string>
+    <string name="closet_add_category_hint">Dodawanie kategorii będzie dostępne wkrótce.</string>
+    <string name="closet_filter_all">Wszystko</string>
+    <string name="closet_filter_empty_state">Brak elementów w tej kategorii. Dodaj ubranie lub wybierz inny filtr.</string>
+    <string name="closet_ai_styles_title">Rozpoznane style</string>
+    <string name="closet_ai_styles_unknown">Brak danych</string>
+    <string name="closet_ai_added_toast">Dodano do kategorii %1$s · style: %2$s</string>
+    <string name="closet_ai_colors_title">Kolory</string>
+    <string name="closet_section_stylings_title">Stylizacje AI</string>
+    <string name="closet_stylings_subtitle">Wybierz zestaw i dodaj go do kalendarza jednym kliknięciem.</string>
+    <string name="closet_stylings_empty">Wygeneruj stylizacje w zakładce Styl, aby pojawiły się tutaj.</string>
+    <string name="closet_stylings_add_to_calendar">Dodaj do kalendarza</string>
+    <string name="closet_styling_style_label">Styl: %1$s</string>
+    <string name="closet_calendar_title">Twój kalendarz stylizacji</string>
+    <string name="closet_calendar_subtitle">Zapisuj, co nosisz każdego dnia i planuj z wyprzedzeniem.</string>
+    <string name="closet_calendar_previous">Poprzedni miesiąc</string>
+    <string name="closet_calendar_next">Następny miesiąc</string>
+    <string name="closet_calendar_empty">Nie zaplanowano jeszcze żadnej stylizacji w tym miesiącu.</string>
+    <string name="closet_calendar_saved_toast">Zapisano stylizację na %1$s.</string>
+    <string name="closet_calendar_confirm">Zapisz w kalendarzu</string>
+    <string name="closet_calendar_dialog_title">Stylizacja na %1$s</string>
+    <string name="closet_calendar_dialog_remove">Usuń wpis</string>
+    <string name="closet_calendar_dialog_close">Zamknij</string>
+    <string name="closet_calendar_entry_style">Styl: %1$s</string>
+    <string name="category_tops">Góry</string>
+    <string name="category_bottoms">Doły</string>
+    <string name="category_dresses">Sukienki</string>
+    <string name="category_outerwear">Okrycia</string>
+    <string name="category_shoes">Buty</string>
+    <string name="category_accessories">Akcesoria</string>
+    <string name="category_add">Dodaj kategorię</string>
+    <string name="category_unknown">Inne</string>
+
+    <!-- Styling -->
+    <string name="styling_title">Twoje stylizacje AI</string>
+    <string name="styling_subtitle">Personalizowane zestawy na dziś. Edytuj, zapisz lub poproś o nowe propozycje.</string>
+    <string name="styling_ai_subtitle">Tworzymy zestawy na podstawie tego, co masz w szafie. Wybierz styl i personalizuj elementy.</string>
+    <string name="styling_select_style">Wybierz styl prowadzący</string>
+    <string name="styling_generated_intro">Twoje rekomendacje AI dla wybranego stylu.</string>
+    <string name="styling_open_travel_planner">Otwórz planer podróży</string>
+    <string name="styling_profile_section_title">Twoja uroda i kolory</string>
+    <string name="styling_profile_section_subtitle">Dodaj selfie, aby AI dopasowało paletę, style i proporcje do Twojej twarzy.</string>
+    <string name="styling_profile_palette_title">Polecana paleta</string>
+    <string name="styling_profile_suggestions_title">Jak nosić swoje kolory</string>
+    <string name="styling_profile_features_title">Cechy urody</string>
+    <string name="styling_profile_saved_message">Selfie zapisane. Stylizacje będą dopasowane do Twojej urody.</string>
+    <string name="styling_profile_eye_color">Oczy: %1$s</string>
+    <string name="styling_profile_hair_tone">Włosy: %1$s</string>
+    <string name="styling_profile_skin_tone">Cera: %1$s</string>
+    <string name="styling_profile_face_shape">Kształt twarzy: %1$s</string>
+    <string name="styling_profile_highlights_label">Słowa kluczowe</string>
+    <string name="styling_profile_advantages_label">Zalety stylizacji</string>
+    <string name="styling_profile_empty_state">Dodaj selfie, aby dopasować stylizacje do swoich oczu, cery i kształtu twarzy.</string>
+    <string name="action_edit_outfit">Edytuj zestaw</string>
+    <string name="styling_clothing_style">Styl ubioru: %1$s</string>
+    <string name="styling_language_style">Styl językowy: %1$s</string>
+    <string name="styling_interior_style">Styl wnętrzarski: %1$s</string>
+    <string name="styling_action_new_mix">Nowa kombinacja</string>
+    <string name="styling_ai_empty_state">Dodaj ubrania do szafy, aby wygenerować stylizacje AI.</string>
+    <string name="styling_ai_not_enough">Potrzebujemy jeszcze kilku elementów (góra + dół + buty), aby przygotować gotowy zestaw.</string>
+    <string name="styling_ai_need_more_items">Dodaj więcej elementów w tym stylu, aby otrzymać różnorodne propozycje.</string>
+    <string name="styling_ai_generated_title">Styl %1$s</string>
+    <string name="styling_editor_title">Edytuj stylizację</string>
+    <string name="styling_editor_replace_prompt">Wybierz zamiennik dla: %1$s</string>
+    <string name="styling_editor_cancel">Anuluj</string>
+    <string name="styling_editor_save">Zapisz zmiany</string>
+
+    <!-- Shop -->
+    <string name="shop_title">Sklep</string>
+    <string name="shop_subtitle">Sprawdź zakupy z pomocą AI – zrób zdjęcie lub dodaj zrzut ekranu, a my ocenimy styl i dopasowania.</string>
+    <string name="shop_button_start">Zakupy</string>
+    <string name="shop_empty_state">Rozpocznij analizę zakupów, aby zobaczyć rekomendacje.</string>
+    <string name="shop_section_results">Ostatnie analizy</string>
+    <string name="shop_dialog_channel_title">Jakie zakupy planujesz?</string>
+    <string name="shop_dialog_channel_body">Wybierz sposób dodania zdjęć do analizy.</string>
+    <string name="shop_channel_offline">Zakupy stacjonarne</string>
+    <string name="shop_channel_online">Zakupy online</string>
+    <string name="shop_dialog_scope_title">Co chcesz ocenić?</string>
+    <string name="shop_scope_hint">AI oceni styl, kolory i zaproponuje połączenia z Twoją szafą.</string>
+    <string name="shop_scope_item">Jeden element</string>
+    <string name="shop_scope_outfit">Cała stylizacja</string>
+    <string name="shop_positive_style">Styl: %1$s</string>
+    <string name="shop_positive_colors">Kolory: %1$s</string>
+    <string name="shop_positive_outfit_ready">Kompletna stylizacja – %1$d elementów gotowych do noszenia.</string>
+    <string name="shop_negative_monotone">Dominują neutralne kolory – dodaj akcent, aby ożywić zestaw.</string>
+    <string name="shop_negative_missing_piece">Brakuje elementu: %1$s.</string>
+    <string name="shop_negative_no_matches">Brak bezpośrednich dopasowań w Twojej szafie.</string>
+    <string name="shop_pairing_none">Dodaj więcej elementów do szafy, aby zobaczyć propozycje połączeń.</string>
+    <string name="shop_pairing_with">Połącz z: %1$s (%2$s)</string>
+    <string name="shop_review_title_item">Nowy element: %1$s</string>
+    <string name="shop_review_title_outfit">Stylizacja – %1$s</string>
+    <string name="shop_generic_outfit">uniwersalny zestaw</string>
+    <string name="shop_review_positives">Zalety</string>
+    <string name="shop_review_negatives">Wady</string>
+    <string name="shop_review_pairings">Z czym łączyć</string>
+    <string name="shop_no_negatives">Brak widocznych wad – świetny wybór!</string>
+    <string name="shop_no_positives">Dodaj więcej informacji, aby zobaczyć mocne strony.</string>
+    <string name="shop_toast_camera_denied">Brak dostępu do aparatu.</string>
+    <string name="shop_toast_no_media">Nie udało się pobrać zdjęcia.</string>
+
+    <!-- Fashion styles -->
+    <string name="fashion_style_classic">Styl klasyczny</string>
+    <string name="fashion_style_classic_desc">Stawia na elegancję, dopracowane kroje i neutralne kolory.</string>
+    <string name="fashion_style_smart_casual">Smart casual</string>
+    <string name="fashion_style_smart_casual_desc">Łączy wygodę z elegancją – marynarki, koszule i lekkie tkaniny.</string>
+    <string name="fashion_style_casual">Styl casual</string>
+    <string name="fashion_style_casual_desc">Swobodne fasony, denim i miękkie dzianiny na co dzień.</string>
+    <string name="fashion_style_minimalist">Styl minimalistyczny</string>
+    <string name="fashion_style_minimalist_desc">Proste formy, ograniczona paleta barw i wysokiej jakości materiały.</string>
+    <string name="fashion_style_sporty">Styl sportowy</string>
+    <string name="fashion_style_sporty_desc">Athleisure, techniczne tkaniny i sneakersy w codziennym wydaniu.</string>
+    <string name="fashion_style_boho">Styl boho</string>
+    <string name="fashion_style_boho_desc">Luźne kroje, frędzle, hafty i inspiracje festiwalowe.</string>
+    <string name="fashion_style_glamour">Styl glamour</string>
+    <string name="fashion_style_glamour_desc">Połyskujące materiały, satyna i mocne akcenty na wieczór.</string>
+    <string name="fashion_style_romantic">Styl romantyczny</string>
+    <string name="fashion_style_romantic_desc">Pastelowe kolory, koronki i subtelne falbany.</string>
+    <string name="fashion_style_streetwear">Streetwear</string>
+    <string name="fashion_style_streetwear_desc">Oversize, grafiki i inspiracje modą miejską.</string>
+    <string name="fashion_style_rock">Styl rockowy</string>
+    <string name="fashion_style_rock_desc">Skóra, czerń i metalowe detale nadające charakteru.</string>
+
+    <!-- Suitcase mode -->
+    <string name="suitcase_title">Planer podróży</string>
+    <string name="suitcase_subtitle">Zaplanuj stylizacje na podróż. AI zadba o pogodę, okazje i miejsce w walizce.</string>
+    <string name="suitcase_sheet_subtitle">Dobierz zestawy na cały wyjazd, korzystając z Twojej szafy i prognozy pogody.</string>
+    <string name="action_new_trip">Nowa podróż</string>
+    <string name="suitcase_empty_state">Nie masz jeszcze zaplanowanych wyjazdów. Dodaj podróż, aby zobaczyć stylizacje i prognozę.</string>
+    <string name="suitcase_plan_trip_action">Zaplanuj podróż</string>
+    <string name="suitcase_close_sheet">Zamknij planer</string>
+    <string name="suitcase_search_label">Wyszukaj miejsce docelowe</string>
+    <string name="suitcase_search_hint">np. Mediolan, Paryż, Tokio</string>
+    <string name="suitcase_search_button">Szukaj na mapie</string>
+    <string name="suitcase_search_results">Znalezione lokalizacje</string>
+    <string name="suitcase_selected_location">Wybrany region</string>
+    <string name="suitcase_dates_title">Wybierz daty podróży</string>
+    <string name="suitcase_pick_start">Data wyjazdu</string>
+    <string name="suitcase_pick_end">Data powrotu</string>
+    <string name="suitcase_plan_trip">Pobierz pogodę i zaplanuj</string>
+    <string name="suitcase_loading_weather">Pobieram prognozę…</string>
+    <string name="suitcase_weather_section">Prognoza pogody</string>
+    <string name="suitcase_outfits_section">Stylizacje na każdy dzień</string>
+    <string name="suitcase_shopping_section">Przyda się dokupić</string>
+    <string name="suitcase_no_shopping_needed">Twoja garderoba świetnie pasuje do tej podróży!</string>
+    <string name="suitcase_new_trip_title">Zaplanuj podróż</string>
+    <string name="suitcase_cancel">Anuluj</string>
+    <string name="suitcase_confirm">Zapisz podróż</string>
+    <string name="suitcase_error_no_location">Wybierz najpierw miejsce docelowe.</string>
+    <string name="suitcase_error_no_dates">Ustaw datę startu i powrotu.</string>
+    <string name="suitcase_error_date_order">Data powrotu musi być późniejsza niż data wyjazdu.</string>
+    <string name="suitcase_error_no_closet">Dodaj ubrania do szafy, aby zaplanować stylizacje na podróż.</string>
+    <string name="suitcase_error_fetching">Nie udało się pobrać pogody. Spróbuj ponownie.</string>
+    <string name="suitcase_error_search">Nie udało się znaleźć miejsca. Sprawdź pisownię i spróbuj ponownie.</string>
+    <string name="suitcase_no_results">Brak wyników dla podanej nazwy.</string>
+    <string name="suitcase_day_label">%1$s · %2$s</string>
+    <string name="suitcase_forecast_format">%1$.1f°C / %2$.1f°C • Deszcz: %3$d%%</string>
+    <string name="suitcase_reason_prefix">Dlaczego: %1$s</string>
+    <string name="suitcase_shopping_hint">%1$s</string>
+    <string name="suitcase_map_hint">Podgląd mapy wymaga klucza Google Maps w pliku strings.xml.</string>
+    <string name="suitcase_activity_title">Aktywności w podróży</string>
+    <string name="suitcase_activity_custom_label">Dodaj własną aktywność</string>
+    <string name="suitcase_activity_custom_hint">np. wieczorny koncert, zwiedzanie muzeów</string>
+    <string name="suitcase_activity_custom_add">Dodaj</string>
+    <string name="suitcase_activity_summary">Aktywności: %1$s</string>
+    <string name="suitcase_climate_title">Warunki pogodowe</string>
+    <string name="suitcase_activity_badge">Aktywność: %1$s</string>
+
+    <string name="travel_activity_swim">Plaża i pływanie</string>
+    <string name="travel_activity_hike">Góry i trekking</string>
+    <string name="travel_activity_city">Zwiedzanie miasta</string>
+    <string name="travel_activity_evening">Wieczorne wyjścia</string>
+
+    <string name="action_add_selfie">Zrób selfie</string>
+    <string name="action_pick_from_gallery">Wybierz z galerii</string>
+
+    <!-- Calendar -->
+    <string name="calendar_title">Stylizacje w kalendarzu</string>
+    <string name="calendar_subtitle">Śledź, co nosisz każdego dnia i buduj kapsułową garderobę.</string>
+    <string name="calendar_month_label">%1$s %2$d</string>
+    <string name="calendar_empty_slot" translatable="false"> </string>
+    <string name="calendar_day_label">%1$d</string>
+    <string name="calendar_day_outfit">%1$s</string>
+    <string-array name="calendar_weekdays">
+        <item>PN</item>
+        <item>WT</item>
+        <item>ŚR</item>
+        <item>CZ</item>
+        <item>PT</item>
+        <item>SOB</item>
+        <item>NIE</item>
+    </string-array>
+
+    <!-- Virtual try-on -->
+    <string name="styling_tab_ai">Stylizacje AI</string>
+    <string name="styling_tab_virtual">Wirtualna przymierzalnia</string>
+    <string name="virtual_try_on_title">Avatar w Twoim stylu</string>
+    <string name="virtual_try_on_subtitle">Zobacz, jak AI ubiera Twojego awatara zgodnie z preferencjami i paletą kolorów.</string>
+    <string name="virtual_try_on_refresh">Przymierz coś innego</string>
+    <string name="virtual_try_on_palette">Paleta: %1$s</string>
+    <string name="virtual_try_on_description">%1$s</string>
+
+    <!-- Feed -->
+    <string name="feed_title">DressUp Feed</string>
+    <string name="feed_subtitle">Publikuj swoje stylizacje, inspiruj się społecznością.</string>
+    <string name="feed_likes">%1$d polubień</string>
+
+    <!-- Misc -->
+    <string name="profile_followers">Obserwujący</string>
+    <string name="google_maps_key">TUTAJ_WPROWADZ_SWOJ_KLUCZ_MAP_GOOGLE</string>
+</resources>
