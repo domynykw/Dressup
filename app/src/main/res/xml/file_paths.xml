@@ -1,17 +1,5 @@
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <cache-path
-        name="closet_photos_cache"
-        path="closet_photos/" />
-    <cache-path
-        name="style_selfies_cache"
-        path="style_selfies/" />
-    <files-path
         name="closet_photos"
         path="closet_photos/" />
-    <files-path
-        name="style_selfies"
-        path="style_selfies/" />
-    <cache-path
-        name="shop_photos"
-        path="shop_photos/" />
 </paths>

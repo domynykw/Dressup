@@ -7,29 +7,23 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.FlightTakeoff
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -38,7 +32,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -63,14 +56,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import coil.compose.AsyncImage
 import com.example.dressup.R
-import com.example.dressup.ai.FashionStyle
-import com.example.dressup.ai.PersonalStyleProfile
-import com.example.dressup.data.ClosetItem
 import com.example.dressup.ui.suitcase.DailyPackingSuggestion
 import com.example.dressup.ui.suitcase.GeoLocation
-import com.example.dressup.ui.suitcase.TravelActivity
 import com.example.dressup.ui.suitcase.TravelPlan
 import com.example.dressup.ui.suitcase.formatDateForDisplay
 import com.example.dressup.ui.suitcase.formatDateRange
@@ -83,120 +71,79 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import kotlinx.coroutines.launch
 
-private data class ActivityPreset(
-    val id: String,
-    val labelRes: Int,
-    val styles: List<FashionStyle>
-)
-
-private val activityPresets = listOf(
-    ActivityPreset(
-        id = "swim",
-        labelRes = R.string.travel_activity_swim,
-        styles = listOf(FashionStyle.SPORTY, FashionStyle.CASUAL)
-    ),
-    ActivityPreset(
-        id = "hike",
-        labelRes = R.string.travel_activity_hike,
-        styles = listOf(FashionStyle.SPORTY, FashionStyle.BOHO)
-    ),
-    ActivityPreset(
-        id = "city",
-        labelRes = R.string.travel_activity_city,
-        styles = listOf(FashionStyle.SMART_CASUAL, FashionStyle.CASUAL)
-    ),
-    ActivityPreset(
-        id = "evening",
-        labelRes = R.string.travel_activity_evening,
-        styles = listOf(FashionStyle.GLAMOUR, FashionStyle.ROMANTIC)
-    )
-)
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TravelPlannerContent(
-    closetItems: List<ClosetItem>,
-    profile: PersonalStyleProfile?,
-    onClose: () -> Unit
-) {
+fun SuitcaseModeScreen() {
     val trips = remember { mutableStateListOf<TravelPlan>() }
-    var showDialog by remember { mutableStateOf(false) }
+    var plannerVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(24.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Column {
                 Text(
                     text = stringResource(id = R.string.suitcase_title),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = stringResource(id = R.string.suitcase_sheet_subtitle),
+                    text = stringResource(id = R.string.suitcase_subtitle),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
                 )
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                IconButton(onClick = { showDialog = true }) {
-                    Icon(
-                        imageVector = Icons.Filled.FlightTakeoff,
-                        contentDescription = stringResource(id = R.string.suitcase_plan_trip_action)
-                    )
-                }
-                IconButton(onClick = onClose) {
-                    Icon(imageVector = Icons.Filled.Close, contentDescription = stringResource(id = R.string.suitcase_close_sheet))
-                }
+            Button(onClick = { plannerVisible = true }) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = stringResource(id = R.string.action_new_trip))
             }
         }
+        Spacer(modifier = Modifier.height(24.dp))
 
         if (trips.isEmpty()) {
-            TravelEmptyState(onCreate = { showDialog = true })
+            EmptySuitcaseState()
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                items(trips, key = { it.id }) { plan ->
-                    TravelPlanCard(plan = plan)
+                items(trips, key = { it.id }) { trip ->
+                    TravelPlanCard(travelPlan = trip)
                 }
             }
         }
     }
 
-    if (showDialog) {
-        TravelPlannerDialog(
-            closetItems = closetItems,
-            profile = profile,
-            onDismiss = { showDialog = false },
+    if (plannerVisible) {
+        SuitcasePlannerDialog(
+            onDismiss = { plannerVisible = false },
             onPlanReady = { plan ->
                 trips.add(0, plan)
-                showDialog = false
+                plannerVisible = false
             }
         )
     }
 }
 
 @Composable
-private fun TravelEmptyState(onCreate: () -> Unit) {
+private fun EmptySuitcaseState() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier.padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
@@ -204,20 +151,143 @@ private fun TravelEmptyState(onCreate: () -> Unit) {
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Button(onClick = onCreate) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = null)
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(text = stringResource(id = R.string.action_new_trip))
+        }
+    }
+}
+
+@Composable
+private fun TravelPlanCard(travelPlan: TravelPlan) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = travelPlan.location.displayName,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = formatDateRange(travelPlan.startDate, travelPlan.endDate),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+            Text(
+                text = stringResource(id = R.string.suitcase_weather_section),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium
+            )
+            travelPlan.forecasts.forEach { forecast ->
+                Text(
+                    text = forecast.summary,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+            Text(
+                text = stringResource(id = R.string.suitcase_outfits_section),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium
+            )
+            travelPlan.packingSuggestions.forEach { suggestion ->
+                OutfitSuggestionCard(suggestion)
+            }
+            if (travelPlan.shoppingTips.isNotEmpty()) {
+                Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+                Text(
+                    text = stringResource(id = R.string.suitcase_shopping_section),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Medium
+                )
+                travelPlan.shoppingTips.forEach { tip ->
+                    Text(
+                        text = stringResource(id = R.string.suitcase_shopping_hint, tip),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            } else {
+                Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+                Text(
+                    text = stringResource(id = R.string.suitcase_no_shopping_needed),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-private fun TravelPlannerDialog(
-    closetItems: List<ClosetItem>,
-    profile: PersonalStyleProfile?,
+private fun OutfitSuggestionCard(suggestion: DailyPackingSuggestion) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(16.dp))
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = stringResource(
+                id = R.string.suitcase_day_label,
+                suggestion.displayDate,
+                suggestion.forecastSummary
+            ),
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        suggestion.outfit.pieces.forEach { piece ->
+            Text(
+                text = "• $piece",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        Text(
+            text = suggestion.outfit.title,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Text(
+            text = stringResource(id = R.string.suitcase_reason_prefix, suggestion.reason),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Text(
+            text = stringResource(
+                id = R.string.styling_clothing_style,
+                suggestion.outfit.clothingStyle.label
+            ),
+            style = MaterialTheme.typography.bodySmall
+        )
+        Text(
+            text = stringResource(
+                id = R.string.styling_language_style,
+                suggestion.outfit.languageStyle.label
+            ),
+            style = MaterialTheme.typography.bodySmall
+        )
+        Text(
+            text = stringResource(
+                id = R.string.styling_interior_style,
+                suggestion.outfit.interiorStyle.label
+            ),
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SuitcasePlannerDialog(
     onDismiss: () -> Unit,
     onPlanReady: (TravelPlan) -> Unit
 ) {
@@ -228,19 +298,11 @@ private fun TravelPlannerDialog(
     var selectedLocation by remember { mutableStateOf<GeoLocation?>(null) }
     var startDate by rememberSaveable { mutableStateOf<LocalDate?>(null) }
     var endDate by rememberSaveable { mutableStateOf<LocalDate?>(null) }
-    var isLoadingPlan by remember { mutableStateOf(false) }
+    var isLoadingWeather by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var preparedPlan by remember { mutableStateOf<TravelPlan?>(null) }
     val scrollState = rememberScrollState()
     val cameraPositionState = rememberCameraPositionState()
-
-    val selectedPresets = remember { mutableStateListOf<String>() }
-    val customActivities = remember { mutableStateListOf<String>() }
-    var customActivityText by rememberSaveable { mutableStateOf("") }
-
-    val presetLabels = activityPresets.associate { preset ->
-        preset.id to stringResource(id = preset.labelRes)
-    }
 
     LaunchedEffect(selectedLocation) {
         selectedLocation?.let { location ->
@@ -307,7 +369,7 @@ private fun TravelPlannerDialog(
                 ) {
                     if (isSearching) {
                         CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                        Spacer(modifier = Modifier.size(12.dp))
+                        Spacer(modifier = Modifier.width(12.dp))
                     }
                     Text(text = stringResource(id = R.string.suitcase_search_button))
                 }
@@ -333,7 +395,7 @@ private fun TravelPlannerDialog(
                 }
 
                 selectedLocation?.let { location ->
-                    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(id = R.string.suitcase_selected_location),
                             style = MaterialTheme.typography.titleSmall,
@@ -385,85 +447,6 @@ private fun TravelPlannerDialog(
                     )
                 }
 
-                Text(
-                    text = stringResource(id = R.string.suitcase_activity_title),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Medium
-                )
-                FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    activityPresets.forEach { preset ->
-                        val selected = preset.id in selectedPresets
-                        FilterChip(
-                            selected = selected,
-                            onClick = {
-                                if (selected) {
-                                    selectedPresets.remove(preset.id)
-                                } else {
-                                    selectedPresets.add(preset.id)
-                                }
-                                preparedPlan = null
-                            },
-                            label = { Text(text = stringResource(id = preset.labelRes)) }
-                        )
-                    }
-                }
-
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.suitcase_activity_custom_label),
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        OutlinedTextField(
-                            value = customActivityText,
-                            onValueChange = { customActivityText = it },
-                            modifier = Modifier.weight(1f),
-                            placeholder = { Text(text = stringResource(id = R.string.suitcase_activity_custom_hint)) }
-                        )
-                        Button(onClick = {
-                            val trimmed = customActivityText.trim()
-                            if (trimmed.isNotEmpty()) {
-                                customActivities.add(trimmed)
-                                customActivityText = ""
-                                preparedPlan = null
-                            }
-                        }) {
-                            Text(text = stringResource(id = R.string.suitcase_activity_custom_add))
-                        }
-                    }
-                    if (customActivities.isNotEmpty()) {
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            customActivities.forEach { entry ->
-                                AssistChip(
-                                    onClick = { customActivities.remove(entry) },
-                                    label = { Text(text = entry) },
-                                    leadingIcon = {
-                                        Icon(
-                                            imageVector = Icons.Filled.Close,
-                                            contentDescription = null,
-                                            modifier = Modifier.size(16.dp)
-                                        )
-                                    },
-                                    colors = AssistChipDefaults.assistChipColors(
-                                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                        labelColor = MaterialTheme.colorScheme.onSecondaryContainer
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-
                 errorMessage?.let { message ->
                     Text(
                         text = message,
@@ -477,34 +460,32 @@ private fun TravelPlannerDialog(
                         val location = selectedLocation
                         val start = startDate
                         val end = endDate
-                        val activities = buildActivities(selectedPresets, customActivities, presetLabels)
                         when {
                             location == null -> errorMessage = stringResource(id = R.string.suitcase_error_no_location)
                             start == null || end == null -> errorMessage = stringResource(id = R.string.suitcase_error_no_dates)
                             end.isBefore(start) -> errorMessage = stringResource(id = R.string.suitcase_error_date_order)
-                            closetItems.isEmpty() -> errorMessage = stringResource(id = R.string.suitcase_error_no_closet)
                             else -> {
                                 errorMessage = null
-                                isLoadingPlan = true
+                                isLoadingWeather = true
                                 coroutineScope.launch {
                                     try {
-                                        val plan = prepareTravelPlan(location, start, end, activities, closetItems, profile)
-                                        preparedPlan = plan
+                                        preparedPlan = prepareTravelPlan(location, start, end)
+                                        errorMessage = null
                                     } catch (error: Exception) {
                                         errorMessage = stringResource(id = R.string.suitcase_error_fetching)
                                     } finally {
-                                        isLoadingPlan = false
+                                        isLoadingWeather = false
                                     }
                                 }
                             }
                         }
                     },
-                    enabled = !isLoadingPlan && selectedLocation != null,
+                    enabled = !isLoadingWeather && selectedLocation != null,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    if (isLoadingPlan) {
+                    if (isLoadingWeather) {
                         CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                        Spacer(modifier = Modifier.size(12.dp))
+                        Spacer(modifier = Modifier.width(12.dp))
                     }
                     Text(text = stringResource(id = R.string.suitcase_plan_trip))
                 }
@@ -520,7 +501,7 @@ private fun TravelPlannerDialog(
                     TextButton(onClick = onDismiss) {
                         Text(text = stringResource(id = R.string.suitcase_cancel))
                     }
-                    Spacer(modifier = Modifier.size(12.dp))
+                    Spacer(modifier = Modifier.width(12.dp))
                     Button(
                         onClick = {
                             preparedPlan?.let(onPlanReady)
@@ -532,40 +513,6 @@ private fun TravelPlannerDialog(
                 }
             }
         }
-    }
-}
-
-private fun buildActivities(
-    selectedPresets: List<String>,
-    customActivities: List<String>,
-    presetLabels: Map<String, String>
-): List<TravelActivity> {
-    val presetActivities = selectedPresets.mapNotNull { id ->
-        val preset = activityPresets.firstOrNull { it.id == id }
-        preset?.let {
-            TravelActivity(
-                name = presetLabels[id] ?: id,
-                styleHints = it.styles
-            )
-        }
-    }
-    val custom = customActivities.map { entry ->
-        TravelActivity(
-            name = entry,
-            styleHints = inferStylesForCustomActivity(entry)
-        )
-    }
-    return presetActivities + custom
-}
-
-private fun inferStylesForCustomActivity(name: String): List<FashionStyle> {
-    val lower = name.lowercase(Locale.getDefault())
-    return when {
-        listOf("plaż", "basen", "swim", "kąpiel").any { lower.contains(it) } -> listOf(FashionStyle.SPORTY, FashionStyle.CASUAL)
-        listOf("gór", "szlak", "hike", "trek").any { lower.contains(it) } -> listOf(FashionStyle.SPORTY, FashionStyle.BOHO)
-        listOf("wiecz", "kolac", "party", "noc").any { lower.contains(it) } -> listOf(FashionStyle.GLAMOUR, FashionStyle.ROMANTIC)
-        listOf("biznes", "konfer", "spotkanie", "praca").any { lower.contains(it) } -> listOf(FashionStyle.CLASSIC, FashionStyle.SMART_CASUAL)
-        else -> listOf(FashionStyle.CASUAL)
     }
 }
 
@@ -714,183 +661,6 @@ private fun DateRow(
 }
 
 @Composable
-private fun TravelPlanCard(plan: TravelPlan) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = plan.location.displayName,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = formatDateRange(plan.startDate, plan.endDate),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            if (plan.activities.isNotEmpty()) {
-                Text(
-                    text = stringResource(id = R.string.suitcase_activity_summary, plan.activities.joinToString(separator = " · ")),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-            if (plan.climateNotes.isNotEmpty()) {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(
-                        text = stringResource(id = R.string.suitcase_climate_title),
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Medium
-                    )
-                    plan.climateNotes.forEach { note ->
-                        Text(
-                            text = "• $note",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
-            }
-            Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
-            Text(
-                text = stringResource(id = R.string.suitcase_outfits_section),
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Medium
-            )
-            plan.packingSuggestions.forEach { suggestion ->
-                DailySuggestionCard(suggestion = suggestion)
-            }
-            if (plan.shoppingTips.isNotEmpty()) {
-                Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
-                Text(
-                    text = stringResource(id = R.string.suitcase_shopping_section),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Medium
-                )
-                plan.shoppingTips.forEach { tip ->
-                    Text(
-                        text = "• $tip",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-private fun DailySuggestionCard(suggestion: DailyPackingSuggestion) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text(
-                text = stringResource(id = R.string.suitcase_day_label, suggestion.displayDate, suggestion.forecastSummary),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = stringResource(id = R.string.suitcase_activity_badge, suggestion.activityName),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.secondary
-            )
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                suggestion.look.highlights.forEach { keyword ->
-                    AssistChip(
-                        onClick = {},
-                        label = { Text(text = keyword) }
-                    )
-                }
-                suggestion.contextHighlights.forEach { keyword ->
-                    AssistChip(
-                        onClick = {},
-                        label = { Text(text = keyword) },
-                        colors = AssistChipDefaults.assistChipColors(
-                            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-                        )
-                    )
-                }
-            }
-            if (suggestion.look.advantages.isNotEmpty()) {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    suggestion.look.advantages.forEach { advantage ->
-                        Text(
-                            text = "• $advantage",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
-            }
-            suggestion.contingency?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.tertiary
-                )
-            }
-            Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.2f))
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                suggestion.look.pieces.forEach { item ->
-                    ClosetPieceRow(item = item)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ClosetPieceRow(item: ClosetItem) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.15f), RoundedCornerShape(12.dp))
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        AsyncImage(
-            model = item.uri,
-            contentDescription = item.notes,
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-        )
-        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text(
-                text = item.displayName(),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium
-            )
-            if (item.styles.isNotEmpty()) {
-                Text(
-                    text = item.styles.joinToString { style -> stringResource(id = style.titleRes) },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                )
-            }
-        }
-    }
-}
-
-private fun ClosetItem.displayName(): String {
-    return notes?.takeIf { it.isNotBlank() }
-        ?: category.name.lowercase(Locale.getDefault()).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-}
-
-@Composable
 private fun SuitcasePlanPreview(plan: TravelPlan) {
     Column(
         modifier = Modifier
@@ -908,13 +678,25 @@ private fun SuitcasePlanPreview(plan: TravelPlan) {
             text = formatDateRange(plan.startDate, plan.endDate),
             style = MaterialTheme.typography.bodyMedium
         )
-        plan.climateNotes.forEach { note ->
+        Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+        Text(
+            text = stringResource(id = R.string.suitcase_weather_section),
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Medium
+        )
+        plan.forecasts.forEach { forecast ->
             Text(
-                text = "• $note",
+                text = forecast.summary,
                 style = MaterialTheme.typography.bodySmall
             )
         }
-        plan.packingSuggestions.take(2).forEach { suggestion ->
+        Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+        Text(
+            text = stringResource(id = R.string.suitcase_outfits_section),
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Medium
+        )
+        plan.packingSuggestions.forEach { suggestion ->
             Text(
                 text = stringResource(
                     id = R.string.suitcase_day_label,
@@ -924,11 +706,25 @@ private fun SuitcasePlanPreview(plan: TravelPlan) {
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium
             )
-            suggestion.look.pieces.forEach { item ->
-                Text(
-                    text = "• ${item.displayName()}",
-                    style = MaterialTheme.typography.bodySmall
-                )
+            suggestion.outfit.pieces.forEach { piece ->
+                Text(text = "• $piece", style = MaterialTheme.typography.bodySmall)
+            }
+            Text(
+                text = stringResource(id = R.string.suitcase_reason_prefix, suggestion.reason),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        if (plan.shoppingTips.isNotEmpty()) {
+            Divider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f))
+            Text(
+                text = stringResource(id = R.string.suitcase_shopping_section),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium
+            )
+            plan.shoppingTips.forEach { tip ->
+                Text(text = "• $tip", style = MaterialTheme.typography.bodySmall)
             }
         }
     }

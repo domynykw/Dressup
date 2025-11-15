@@ -13,7 +13,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -31,8 +30,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
@@ -40,14 +37,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.dressup.R
-import com.example.dressup.ui.components.SettingsSheet
 import com.example.dressup.ui.navigation.DressUpDestination
 import com.example.dressup.ui.navigation.dressUpDestinations
+import com.example.dressup.ui.screens.CalendarScreen
 import com.example.dressup.ui.screens.ClosetScreen
+import com.example.dressup.ui.screens.ColorAnalysisScreen
 import com.example.dressup.ui.screens.FeedScreen
-import com.example.dressup.ui.screens.ShopScreen
+import com.example.dressup.ui.screens.ProfileScreen
+import com.example.dressup.ui.screens.SuitcaseModeScreen
 import com.example.dressup.ui.screens.StylingScreen
-import com.example.dressup.ui.state.DressUpViewModel
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +62,6 @@ fun DressUpApp() {
         DressUpSplashScreen()
     } else {
         val navController = rememberNavController()
-        val dressUpViewModel: DressUpViewModel = viewModel()
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = backStackEntry?.destination
         val destinations = dressUpDestinations
@@ -72,17 +69,11 @@ fun DressUpApp() {
             currentDestination.isRouteSelected(destination.route)
         } ?: DressUpDestination.Closet
 
-        val isClosetScreen = currentScreen == DressUpDestination.Closet
-        var showSettings by rememberSaveable { mutableStateOf(false) }
-
         Scaffold(
             topBar = {
-                if (!isClosetScreen) {
-                    DressUpTopBar(
-                        title = stringResource(id = currentScreen.titleRes),
-                        onSettingsClick = { showSettings = true }
-                    )
-                }
+                DressUpTopBar(
+                    title = stringResource(id = currentScreen.titleRes)
+                )
             },
             bottomBar = {
                 DressUpBottomBar(
@@ -105,35 +96,34 @@ fun DressUpApp() {
                 modifier = Modifier.padding(innerPadding)
             ) {
                 composable(DressUpDestination.Closet.route) {
-                    ClosetScreen(
-                        viewModel = dressUpViewModel,
-                        onOpenSettings = { showSettings = true }
-                    )
+                    ClosetScreen()
                 }
                 composable(DressUpDestination.Stylings.route) {
-                    StylingScreen(viewModel = dressUpViewModel)
+                    StylingScreen()
                 }
-                composable(DressUpDestination.Shop.route) {
-                    ShopScreen(viewModel = dressUpViewModel)
+                composable(DressUpDestination.Suitcase.route) {
+                    SuitcaseModeScreen()
+                }
+                composable(DressUpDestination.ColorAnalysis.route) {
+                    ColorAnalysisScreen()
+                }
+                composable(DressUpDestination.Calendar.route) {
+                    CalendarScreen()
                 }
                 composable(DressUpDestination.Feed.route) {
                     FeedScreen()
                 }
+                composable(DressUpDestination.Profile.route) {
+                    ProfileScreen()
+                }
             }
-        }
-
-        if (showSettings) {
-            SettingsSheet(onDismiss = { showSettings = false })
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DressUpTopBar(
-    title: String,
-    onSettingsClick: () -> Unit
-) {
+private fun DressUpTopBar(title: String) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     TopAppBar(
         navigationIcon = {
@@ -148,7 +138,7 @@ private fun DressUpTopBar(
         },
         title = { Text(text = title, style = MaterialTheme.typography.titleLarge) },
         actions = {
-            IconButton(onClick = onSettingsClick) {
+            IconButton(onClick = { /* TODO: Settings screen */ }) {
                 Icon(
                     imageVector = DressUpDestination.Settings.icon,
                     contentDescription = stringResource(id = R.string.accessibility_settings)
@@ -178,12 +168,7 @@ private fun DressUpBottomBar(
             NavigationBarItem(
                 selected = currentDestination.isRouteSelected(destination.route),
                 onClick = { onDestinationSelected(destination) },
-                alwaysShowLabel = true,
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                    selectedTextColor = MaterialTheme.colorScheme.primary
-                ),
+                alwaysShowLabel = false,
                 icon = {
                     Icon(
                         imageVector = destination.icon,
@@ -201,13 +186,15 @@ private fun DressUpSplashScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF9F6F2)),
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.dressup_logo),
             contentDescription = stringResource(id = R.string.accessibility_brand_logo),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 48.dp),
             contentScale = ContentScale.Fit
         )
     }

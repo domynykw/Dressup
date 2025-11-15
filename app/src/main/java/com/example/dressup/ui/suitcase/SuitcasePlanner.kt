@@ -1,11 +1,10 @@
 package com.example.dressup.ui.suitcase
 
-import com.example.dressup.ai.FashionStylist
-import com.example.dressup.ai.FashionStyle
-import com.example.dressup.ai.PersonalStyleProfile
-import com.example.dressup.ai.StyledLook
-import com.example.dressup.data.ClothingCategory
-import com.example.dressup.data.ClosetItem
+import com.example.dressup.ui.styling.ClothingStyle
+import com.example.dressup.ui.styling.InteriorStyle
+import com.example.dressup.ui.styling.LanguageStyle
+import com.example.dressup.ui.styling.OutfitSuggestion
+import com.example.dressup.ui.styling.generateOutfitSuggestions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -17,9 +16,6 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-
-private val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("d MMM", Locale("pl"))
-private val HTTP_CLIENT = OkHttpClient()
 
 data class GeoLocation(
     val name: String,
@@ -60,19 +56,12 @@ data class DailyForecast(
         )
 }
 
-data class TravelActivity(
-    val name: String,
-    val styleHints: List<FashionStyle>
-)
-
 data class DailyPackingSuggestion(
     val date: LocalDate,
     val displayDate: String,
     val forecastSummary: String,
-    val activityName: String,
-    val look: StyledLook,
-    val contextHighlights: List<String>,
-    val contingency: String?
+    val outfit: OutfitSuggestion,
+    val reason: String
 )
 
 data class TravelPlan(
@@ -81,13 +70,14 @@ data class TravelPlan(
     val startDate: LocalDate,
     val endDate: LocalDate,
     val forecasts: List<DailyForecast>,
-    val activities: List<String>,
     val packingSuggestions: List<DailyPackingSuggestion>,
-    val climateNotes: List<String>,
     val shoppingTips: List<String>
 )
 
 private enum class TemperatureBand { COLD, MILD, WARM, HOT }
+
+private val DATE_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("d MMM", Locale("pl"))
+private val HTTP_CLIENT = OkHttpClient()
 
 suspend fun searchDestination(query: String): List<GeoLocation> = withContext(Dispatchers.IO) {
     if (query.isBlank()) return@withContext emptyList()
@@ -154,215 +144,58 @@ suspend fun fetchWeatherForecast(
 suspend fun prepareTravelPlan(
     location: GeoLocation,
     startDate: LocalDate,
-    endDate: LocalDate,
-    activities: List<TravelActivity>,
-    closetItems: List<ClosetItem>,
-    profile: PersonalStyleProfile?
+    endDate: LocalDate
 ): TravelPlan {
     val forecasts = fetchWeatherForecast(location, startDate, endDate)
-    val packing = buildPackingSuggestions(forecasts, activities, closetItems, profile)
-    val climateNotes = buildClimateNotes(forecasts)
+    val outfits = generateOutfitSuggestions(limit = 30).toMutableList()
+    val packing = buildPackingSuggestions(forecasts, outfits)
     return TravelPlan(
         location = location,
         startDate = startDate,
         endDate = endDate,
         forecasts = forecasts,
-        activities = activities.map(TravelActivity::name),
         packingSuggestions = packing.first,
-        climateNotes = climateNotes,
         shoppingTips = packing.second
     )
 }
 
 private fun buildPackingSuggestions(
     forecasts: List<DailyForecast>,
-    activities: List<TravelActivity>,
-    closetItems: List<ClosetItem>,
-    profile: PersonalStyleProfile?
+    outfitPool: MutableList<OutfitSuggestion>
 ): Pair<List<DailyPackingSuggestion>, List<String>> {
-    val stylist = FashionStylist()
-    val normalizedActivities = if (activities.isEmpty()) {
-        listOf(TravelActivity("Dzienna aktywność", listOf(FashionStyle.CASUAL, FashionStyle.SMART_CASUAL)))
-    } else {
-        activities
-    }
-    val styleOrder = normalizedActivities.flatMap { it.styleHints }.ifEmpty { listOf(FashionStyle.CASUAL) }
-    val lookPools = styleOrder.distinct().associateWith { style ->
-        stylist.generateLooks(closetItems, style, profile, limit = forecasts.size * 2).toMutableList()
-    }.filterValues { it.isNotEmpty() }.toMutableMap()
-
     val suggestions = mutableListOf<DailyPackingSuggestion>()
     val shoppingTips = linkedSetOf<String>()
 
-    forecasts.forEachIndexed { index, forecast ->
+    forecasts.forEach { forecast ->
         val band = forecast.toTemperatureBand()
         val rainy = forecast.precipitationProbability >= 60
-        val activity = normalizedActivities[index % normalizedActivities.size]
-        val preferredStyle = selectStyleForActivity(activity, lookPools, band)
-        var look = takeLookForStyle(preferredStyle, lookPools)
-        if (look == null) {
-            val fallbackStyle = lookPools.keys.firstOrNull()
-            look = fallbackStyle?.let { takeLookForStyle(it, lookPools) }
+        val chosen = chooseOutfitForBand(outfitPool, band, rainy)
+        val outfit = chosen.first ?: fallbackOutfit(band, rainy).also {
+            shoppingTips += fallbackShoppingHint(band, rainy)
         }
-        if (look == null) {
-            look = createFallbackLook(closetItems, preferredStyle, stylist, profile)
-            if (look == null) {
-                shoppingTips += "Dodaj więcej elementów w stylu ${activity.name}, aby AI mogła przygotować pełne zestawy."
-                look = createFallbackLook(closetItems, FashionStyle.CASUAL, stylist, profile)
-            }
-        }
-        if (look == null) {
-            return@forEachIndexed
-        }
-
-        if (rainy) {
-            shoppingTips += "Na ${forecast.date.format(DATE_FORMATTER)} prognozowane są opady – spakuj warstwę przeciwdeszczową."
-        }
-
-        val contextHighlights = buildContextHighlights(activity, band, rainy)
-        val contingency = buildContingency(band, rainy)
+        val reason = chosen.second ?: reasonForBand(band, rainy)
         val displayDate = forecast.date.format(DATE_FORMATTER)
-        val summary = String.format(
+        val forecastSummary = String.format(
             Locale("pl"),
             "%.1f°C / %.1f°C • Deszcz: %d%%",
             forecast.minTemperature,
             forecast.maxTemperature,
             forecast.precipitationProbability
         )
-
         suggestions += DailyPackingSuggestion(
             date = forecast.date,
             displayDate = displayDate,
-            forecastSummary = summary,
-            activityName = activity.name,
-            look = look,
-            contextHighlights = contextHighlights,
-            contingency = contingency
+            forecastSummary = forecastSummary,
+            outfit = outfit,
+            reason = reason
         )
     }
 
-    if (lookPools.values.sumOf { it.size } < forecasts.size) {
-        shoppingTips += "Rozważ spakowanie dodatkowych bazowych elementów, aby mieć zapasowe stylizacje."
+    if (outfitPool.size < forecasts.size) {
+        shoppingTips += "Dodaj do garderoby kilka uniwersalnych zestawów, aby uniknąć powtórek stylizacji."
     }
 
     return suggestions to shoppingTips.toList()
-}
-
-private fun buildClimateNotes(forecasts: List<DailyForecast>): List<String> {
-    if (forecasts.isEmpty()) return emptyList()
-    val notes = mutableListOf<String>()
-    val rainyDays = forecasts.count { it.precipitationProbability >= 60 }
-    if (rainyDays > 0) {
-        notes += "W trakcie wyjazdu możliwe są częste opady – miej przy sobie płaszcz przeciwdeszczowy i wodoodporne obuwie."
-    }
-    val hotDays = forecasts.count { it.averageTemperature >= 26 }
-    if (hotDays > 0) {
-        notes += "Spodziewane są bardzo ciepłe dni – postaw na przewiewne materiały i jasne kolory."
-    }
-    val coolNights = forecasts.count { it.minTemperature <= 10 }
-    if (coolNights > 0) {
-        notes += "Noce mogą być chłodne – dodaj lekką warstwę ocieplającą do walizki."
-    }
-    return notes
-}
-
-private fun selectStyleForActivity(
-    activity: TravelActivity,
-    lookPools: Map<FashionStyle, MutableList<StyledLook>>,
-    band: TemperatureBand
-): FashionStyle {
-    val ordered = activity.styleHints.ifEmpty { listOf(FashionStyle.CASUAL) }
-    val candidate = ordered.firstOrNull { lookPools[it]?.isNotEmpty() == true }
-    if (candidate != null) {
-        return candidate
-    }
-    return when (band) {
-        TemperatureBand.HOT -> FashionStyle.BOHO
-        TemperatureBand.WARM -> FashionStyle.CASUAL
-        TemperatureBand.MILD -> FashionStyle.SMART_CASUAL
-        TemperatureBand.COLD -> FashionStyle.CLASSIC
-    }
-}
-
-private fun takeLookForStyle(
-    style: FashionStyle,
-    lookPools: MutableMap<FashionStyle, MutableList<StyledLook>>
-): StyledLook? {
-    val pool = lookPools[style] ?: return null
-    if (pool.isEmpty()) {
-        lookPools.remove(style)
-        return null
-    }
-    return pool.removeAt(0)
-}
-
-private fun createFallbackLook(
-    closetItems: List<ClosetItem>,
-    targetStyle: FashionStyle,
-    stylist: FashionStylist,
-    profile: PersonalStyleProfile?
-): StyledLook? {
-    if (closetItems.isEmpty()) return null
-    val dresses = closetItems.filter { it.category == ClothingCategory.DRESSES }
-    val tops = closetItems.filter { it.category == ClothingCategory.TOPS }
-    val bottoms = closetItems.filter { it.category == ClothingCategory.BOTTOMS }
-    val shoes = closetItems.filter { it.category == ClothingCategory.SHOES }
-    val outerwear = closetItems.filter { it.category == ClothingCategory.OUTERWEAR }
-    val accessories = closetItems.filter { it.category == ClothingCategory.ACCESSORIES }
-
-    val pieces = when {
-        dresses.isNotEmpty() && shoes.isNotEmpty() -> buildList {
-            add(dresses.first())
-            add(shoes.first())
-            outerwear.firstOrNull()?.let(::add)
-            accessories.firstOrNull()?.let(::add)
-        }
-        tops.isNotEmpty() && bottoms.isNotEmpty() && shoes.isNotEmpty() -> buildList {
-            add(tops.first())
-            add(bottoms.first())
-            add(shoes.first())
-            outerwear.firstOrNull()?.let(::add)
-            accessories.firstOrNull()?.let(::add)
-        }
-        else -> closetItems.take(3)
-    }
-
-    return if (pieces.size >= 2) {
-        stylist.rebuildLook(pieces, targetStyle, profile)
-    } else {
-        null
-    }
-}
-
-private fun buildContextHighlights(
-    activity: TravelActivity,
-    band: TemperatureBand,
-    rainy: Boolean
-): List<String> {
-    val highlights = mutableListOf("Aktywność: ${activity.name}")
-    when (band) {
-        TemperatureBand.HOT -> highlights += "Lekkość i przewiewność na wysokie temperatury"
-        TemperatureBand.WARM -> highlights += "Komfort na ciepłe dni"
-        TemperatureBand.MILD -> highlights += "Warstwowe elementy na zmienną pogodę"
-        TemperatureBand.COLD -> highlights += "Ciepłe warstwy na chłodniejsze chwile"
-    }
-    if (rainy) {
-        highlights += "Ochrona przed możliwymi opadami"
-    }
-    return highlights.distinct()
-}
-
-private fun buildContingency(
-    band: TemperatureBand,
-    rainy: Boolean
-): String? {
-    return when {
-        rainy && (band == TemperatureBand.COLD || band == TemperatureBand.MILD) -> "Awaryjnie zabierz lekką kurtkę przeciwdeszczową i buty z dobrą przyczepnością."
-        rainy -> "Dodaj do walizki szybkoschnącą warstwę przeciwdeszczową."
-        band == TemperatureBand.HOT -> "Na chłodniejsze wieczory warto mieć cienką narzutkę lub szal."
-        band == TemperatureBand.COLD -> "Zapasowa ciepła bluza lub golf przyda się na nocne spadki temperatur."
-        else -> null
-    }
 }
 
 private fun DailyForecast.toTemperatureBand(): TemperatureBand {
@@ -373,6 +206,105 @@ private fun DailyForecast.toTemperatureBand(): TemperatureBand {
         avg < 23 -> TemperatureBand.WARM
         else -> TemperatureBand.HOT
     }
+}
+
+private fun chooseOutfitForBand(
+    outfitPool: MutableList<OutfitSuggestion>,
+    band: TemperatureBand,
+    rainy: Boolean
+): Pair<OutfitSuggestion?, String?> {
+    val preferred = outfitPool.firstOrNull { it.matchesBand(band, rainy) }
+    return if (preferred != null) {
+        outfitPool.remove(preferred)
+        preferred to reasonForBand(band, rainy)
+    } else {
+        val alternative = outfitPool.firstOrNull()
+        if (alternative != null) {
+            outfitPool.remove(alternative)
+            alternative to "Zestaw najlepiej odpowiada dostępnej garderobie."
+        } else {
+            null to null
+        }
+    }
+}
+
+private fun OutfitSuggestion.matchesBand(band: TemperatureBand, rainy: Boolean): Boolean {
+    val text = (pieces + title).joinToString(" ").lowercase(Locale.getDefault())
+    val warmKeywords = listOf("wełn", "sweter", "golf", "kardigan", "marynark", "płaszcz")
+    val breezyKeywords = listOf("sukien", "top", "satyn", "lnian", "jedwab", "koszulk", "bluzk")
+    val sportyKeywords = listOf("sneakers", "trampki", "dres")
+    val rainKeywords = listOf("kurtk", "płaszcz", "marynark", "bomber")
+
+    val warmScore = warmKeywords.count { text.contains(it) }
+    val breezyScore = breezyKeywords.count { text.contains(it) }
+
+    val rainReady = rainKeywords.any { text.contains(it) }
+
+    return when (band) {
+        TemperatureBand.COLD -> warmScore >= 2 || (warmScore >= 1 && rainReady)
+        TemperatureBand.MILD -> warmScore >= 1 || sportyKeywords.any { text.contains(it) }
+        TemperatureBand.WARM -> breezyScore >= 1 && warmScore == 0
+        TemperatureBand.HOT -> breezyScore >= 2 || text.contains("sukien")
+    } && (!rainy || rainReady)
+}
+
+private fun reasonForBand(band: TemperatureBand, rainy: Boolean): String = when (band) {
+    TemperatureBand.COLD -> if (rainy) {
+        "Zestaw zawiera ciepłe warstwy i ochronę przed deszczem."
+    } else {
+        "Ciepłe warstwy utrzymają komfort w chłodniejsze dni."
+    }
+
+    TemperatureBand.MILD -> if (rainy) {
+        "Lekka warstwa zewnętrzna poradzi sobie z przelotnym deszczem."
+    } else {
+        "Zestaw łączy wygodę i lekkie warstwy na zmienną pogodę."
+    }
+
+    TemperatureBand.WARM -> if (rainy) {
+        "Przewiewne materiały z dodatkową warstwą na ewentualny deszcz."
+    } else {
+        "Przewiewne materiały utrzymają komfort w ciepłe dni."
+    }
+
+    TemperatureBand.HOT -> if (rainy) {
+        "Lekkie elementy i warstwa na nagłe opady."
+    } else {
+        "Najlżejsze elementy garderoby pozwolą przetrwać wysokie temperatury."
+    }
+}
+
+private fun fallbackOutfit(band: TemperatureBand, rainy: Boolean): OutfitSuggestion {
+    val pieces = when (band) {
+        TemperatureBand.COLD -> listOf("Wełniany płaszcz", "Ciepły sweter", "Termiczne spodnie", "Buty za kostkę")
+        TemperatureBand.MILD -> listOf("Warstwowa marynarka", "Długie spodnie", "Koszula z długim rękawem")
+        TemperatureBand.WARM -> listOf("Lekka sukienka", "Sandały lub loafersy", "Opcjonalnie cienki kardigan")
+        TemperatureBand.HOT -> listOf("Lniany top", "Szorty lub spódnica", "Sandały")
+    }
+    val adjustedPieces = if (rainy) pieces + "Płaszcz przeciwdeszczowy" else pieces
+    return OutfitSuggestion(
+        title = "Awaryjna stylizacja",
+        pieces = adjustedPieces,
+        clothingStyle = when (band) {
+            TemperatureBand.COLD -> ClothingStyle.KLASYCZNY
+            TemperatureBand.MILD -> ClothingStyle.CASUAL
+            TemperatureBand.WARM -> ClothingStyle.BOHO
+            TemperatureBand.HOT -> ClothingStyle.MINIMALISTYCZNY
+        },
+        languageStyle = LanguageStyle.POTOCZNY,
+        interiorStyle = InteriorStyle.NOWOCZESNY,
+        colorPalette = listOf("Neutralny")
+    )
+}
+
+private fun fallbackShoppingHint(band: TemperatureBand, rainy: Boolean): String {
+    val base = when (band) {
+        TemperatureBand.COLD -> "Rozważ zakup wełnianego płaszcza lub grubego swetra na chłód."
+        TemperatureBand.MILD -> "Przydadzą się lekkie warstwy, np. kardigan lub marynarka."
+        TemperatureBand.WARM -> "Dodaj przewiewne sukienki lub lniane koszule na cieplejsze dni."
+        TemperatureBand.HOT -> "Zainwestuj w bardzo lekkie, oddychające tkaniny, np. len."
+    }
+    return if (rainy) "$base Płaszcz przeciwdeszczowy również się przyda." else base
 }
 
 fun formatDateRange(start: LocalDate, end: LocalDate): String {

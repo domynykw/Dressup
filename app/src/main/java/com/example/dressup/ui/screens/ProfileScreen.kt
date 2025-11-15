@@ -26,18 +26,11 @@ import com.example.dressup.ui.theme.SoftCream
 
 @Composable
 fun ProfileScreen() {
-    ProfileContent(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(SoftCream)
-            .padding(24.dp)
-    )
-}
-
-@Composable
-fun ProfileContent(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier,
+            .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Row(
