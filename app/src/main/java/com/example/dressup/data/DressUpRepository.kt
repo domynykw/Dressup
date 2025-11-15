@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.compose.ui.graphics.Color
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.remove
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.dressup.ai.FashionStyle

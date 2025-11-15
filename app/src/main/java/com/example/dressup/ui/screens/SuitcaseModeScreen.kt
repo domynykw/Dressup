@@ -59,6 +59,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -233,6 +234,7 @@ private fun TravelPlannerDialog(
     var preparedPlan by remember { mutableStateOf<TravelPlan?>(null) }
     val scrollState = rememberScrollState()
     val cameraPositionState = rememberCameraPositionState()
+    val context = LocalContext.current
 
     val selectedPresets = remember { mutableStateListOf<String>() }
     val customActivities = remember { mutableStateListOf<String>() }
@@ -291,12 +293,12 @@ private fun TravelPlannerDialog(
                                 val results = searchDestination(query)
                                 searchResults = results
                                 errorMessage = if (results.isEmpty()) {
-                                    stringResource(id = R.string.suitcase_no_results)
+                                    context.getString(R.string.suitcase_no_results)
                                 } else {
                                     null
                                 }
                             } catch (error: Exception) {
-                                errorMessage = stringResource(id = R.string.suitcase_error_search)
+                                errorMessage = context.getString(R.string.suitcase_error_search)
                             } finally {
                                 isSearching = false
                             }
@@ -479,10 +481,10 @@ private fun TravelPlannerDialog(
                         val end = endDate
                         val activities = buildActivities(selectedPresets, customActivities, presetLabels)
                         when {
-                            location == null -> errorMessage = stringResource(id = R.string.suitcase_error_no_location)
-                            start == null || end == null -> errorMessage = stringResource(id = R.string.suitcase_error_no_dates)
-                            end.isBefore(start) -> errorMessage = stringResource(id = R.string.suitcase_error_date_order)
-                            closetItems.isEmpty() -> errorMessage = stringResource(id = R.string.suitcase_error_no_closet)
+                            location == null -> errorMessage = context.getString(R.string.suitcase_error_no_location)
+                            start == null || end == null -> errorMessage = context.getString(R.string.suitcase_error_no_dates)
+                            end.isBefore(start) -> errorMessage = context.getString(R.string.suitcase_error_date_order)
+                            closetItems.isEmpty() -> errorMessage = context.getString(R.string.suitcase_error_no_closet)
                             else -> {
                                 errorMessage = null
                                 isLoadingPlan = true
@@ -491,7 +493,7 @@ private fun TravelPlannerDialog(
                                         val plan = prepareTravelPlan(location, start, end, activities, closetItems, profile)
                                         preparedPlan = plan
                                     } catch (error: Exception) {
-                                        errorMessage = stringResource(id = R.string.suitcase_error_fetching)
+                                        errorMessage = context.getString(R.string.suitcase_error_fetching)
                                     } finally {
                                         isLoadingPlan = false
                                     }
