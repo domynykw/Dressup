@@ -1,0 +1,228 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.dressup"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.CAMERA" />
+11-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:5:5-65
+11-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:5:22-62
+12    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+12-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:6:5-76
+12-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:6:22-73
+13    <uses-permission
+13-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:7:5-9:38
+14        android:name="android.permission.READ_EXTERNAL_STORAGE"
+14-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:8:9-64
+15        android:maxSdkVersion="32" />
+15-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:9:9-35
+16    <uses-permission android:name="android.permission.INTERNET" />
+16-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:10:5-67
+16-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:10:22-64
+17
+18    <!-- Include required permissions for Google Maps API to run. -->
+19    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+19-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:23:5-79
+19-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:23:22-76
+20
+21    <uses-feature
+21-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:26:5-28:35
+22        android:glEsVersion="0x00020000"
+22-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:27:9-41
+23        android:required="true" />
+23-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:28:9-32
+24
+25    <queries>
+25-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:30:5-34:15
+26
+27        <!-- Needs to be explicitly declared on Android R+ -->
+28        <package android:name="com.google.android.apps.maps" />
+28-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:33:9-64
+28-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:33:18-61
+29    </queries>
+30
+31    <permission
+31-->[androidx.core:core:1.12.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\5f2aa0165b2ab0df5ca7c40d78259b54\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
+32        android:name="com.example.dressup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+32-->[androidx.core:core:1.12.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\5f2aa0165b2ab0df5ca7c40d78259b54\transformed\core-1.12.0\AndroidManifest.xml:23:9-81
+33        android:protectionLevel="signature" />
+33-->[androidx.core:core:1.12.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\5f2aa0165b2ab0df5ca7c40d78259b54\transformed\core-1.12.0\AndroidManifest.xml:24:9-44
+34
+35    <uses-permission android:name="com.example.dressup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+35-->[androidx.core:core:1.12.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\5f2aa0165b2ab0df5ca7c40d78259b54\transformed\core-1.12.0\AndroidManifest.xml:26:5-97
+35-->[androidx.core:core:1.12.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\5f2aa0165b2ab0df5ca7c40d78259b54\transformed\core-1.12.0\AndroidManifest.xml:26:22-94
+36
+37    <application
+37-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:12:5-45:19
+38        android:allowBackup="true"
+38-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:13:9-35
+39        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+39-->[androidx.core:core:1.12.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\5f2aa0165b2ab0df5ca7c40d78259b54\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
+40        android:dataExtractionRules="@xml/data_extraction_rules"
+40-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:14:9-65
+41        android:debuggable="true"
+42        android:extractNativeLibs="false"
+43        android:fullBackupContent="@xml/backup_rules"
+43-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:15:9-54
+44        android:icon="@mipmap/ic_launcher"
+44-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:16:9-43
+45        android:label="@string/app_name"
+45-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:17:9-41
+46        android:roundIcon="@mipmap/ic_launcher_round"
+46-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:18:9-54
+47        android:supportsRtl="true"
+47-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:19:9-35
+48        android:theme="@style/Theme.DressUp" >
+48-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:20:9-45
+49        <meta-data
+49-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:21:9-23:55
+50            android:name="com.google.android.geo.API_KEY"
+50-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:22:13-58
+51            android:value="@string/google_maps_key" />
+51-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:23:13-52
+52
+53        <activity
+53-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:25:9-34:20
+54            android:name="com.example.dressup.MainActivity"
+54-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:26:13-60
+55            android:exported="true"
+55-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:27:13-36
+56            android:screenOrientation="portrait" >
+56-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:28:13-49
+57            <intent-filter>
+57-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:29:13-33:29
+58                <action android:name="android.intent.action.MAIN" />
+58-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:30:17-69
+58-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:30:25-66
+59
+60                <category android:name="android.intent.category.LAUNCHER" />
+60-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:32:17-77
+60-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:32:27-74
+61            </intent-filter>
+62        </activity>
+63
+64        <provider
+65            android:name="androidx.core.content.FileProvider"
+65-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:37:13-62
+66            android:authorities="com.example.dressup.fileprovider"
+66-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:38:13-64
+67            android:exported="false"
+67-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:39:13-37
+68            android:grantUriPermissions="true" >
+68-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:40:13-47
+69            <meta-data
+69-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:41:13-43:54
+70                android:name="android.support.FILE_PROVIDER_PATHS"
+70-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:42:17-67
+71                android:resource="@xml/file_paths" />
+71-->C:\Users\Dominik\AndroidStudioProjects\DressApp\app\src\main\AndroidManifest.xml:43:17-51
+72        </provider>
+73        <!-- Needs to be explicitly declared on P+ -->
+74        <uses-library
+74-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:39:9-41:40
+75            android:name="org.apache.http.legacy"
+75-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:40:13-50
+76            android:required="false" />
+76-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\1fe67982622bad4ccb3cf61a919303e8\transformed\play-services-maps-18.2.0\AndroidManifest.xml:41:13-37
+77
+78        <activity
+78-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\b0ef7e90bdb149b1fb98354b6ea7bc3c\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
+79            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+79-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\b0ef7e90bdb149b1fb98354b6ea7bc3c\transformed\play-services-base-18.0.1\AndroidManifest.xml:20:19-85
+80            android:exported="false"
+80-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\b0ef7e90bdb149b1fb98354b6ea7bc3c\transformed\play-services-base-18.0.1\AndroidManifest.xml:22:19-43
+81            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+81-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\b0ef7e90bdb149b1fb98354b6ea7bc3c\transformed\play-services-base-18.0.1\AndroidManifest.xml:21:19-78
+82
+83        <meta-data
+83-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\a9d7a50edef331506b1ec41901e76965\transformed\play-services-basement-18.0.0\AndroidManifest.xml:21:9-23:69
+84            android:name="com.google.android.gms.version"
+84-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\a9d7a50edef331506b1ec41901e76965\transformed\play-services-basement-18.0.0\AndroidManifest.xml:22:13-58
+85            android:value="@integer/google_play_services_version" />
+85-->[com.google.android.gms:play-services-basement:18.0.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\a9d7a50edef331506b1ec41901e76965\transformed\play-services-basement-18.0.0\AndroidManifest.xml:23:13-66
+86
+87        <activity
+87-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\eeec47dcb1b1ae1f97ad7b2280b98a44\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+88            android:name="androidx.compose.ui.tooling.PreviewActivity"
+88-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\eeec47dcb1b1ae1f97ad7b2280b98a44\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+89            android:exported="true" />
+89-->[androidx.compose.ui:ui-tooling-android:1.6.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\eeec47dcb1b1ae1f97ad7b2280b98a44\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+90        <activity
+90-->[androidx.compose.ui:ui-test-manifest:1.6.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\6de7c95e1933b2e61a755d57352dc7ed\transformed\ui-test-manifest-1.6.1\AndroidManifest.xml:23:9-25:39
+91            android:name="androidx.activity.ComponentActivity"
+91-->[androidx.compose.ui:ui-test-manifest:1.6.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\6de7c95e1933b2e61a755d57352dc7ed\transformed\ui-test-manifest-1.6.1\AndroidManifest.xml:24:13-63
+92            android:exported="true" />
+92-->[androidx.compose.ui:ui-test-manifest:1.6.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\6de7c95e1933b2e61a755d57352dc7ed\transformed\ui-test-manifest-1.6.1\AndroidManifest.xml:25:13-36
+93
+94        <provider
+94-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\ee6fd21470200f1d3cebfc52852eaca6\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+95            android:name="androidx.startup.InitializationProvider"
+95-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\ee6fd21470200f1d3cebfc52852eaca6\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+96            android:authorities="com.example.dressup.androidx-startup"
+96-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\ee6fd21470200f1d3cebfc52852eaca6\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+97            android:exported="false" >
+97-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\ee6fd21470200f1d3cebfc52852eaca6\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+98            <meta-data
+98-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\ee6fd21470200f1d3cebfc52852eaca6\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+99                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+99-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\ee6fd21470200f1d3cebfc52852eaca6\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+100                android:value="androidx.startup" />
+100-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\ee6fd21470200f1d3cebfc52852eaca6\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+101            <meta-data
+101-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\15a13786ce6855ba59dcfac9d64a9e90\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+102                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+102-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\15a13786ce6855ba59dcfac9d64a9e90\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+103                android:value="androidx.startup" />
+103-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\15a13786ce6855ba59dcfac9d64a9e90\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+104            <meta-data
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+105                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+106                android:value="androidx.startup" />
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+107        </provider>
+108
+109        <receiver
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+110            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+111            android:directBootAware="false"
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+112            android:enabled="true"
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+113            android:exported="true"
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+114            android:permission="android.permission.DUMP" >
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+115            <intent-filter>
+115-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+116                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+117            </intent-filter>
+118            <intent-filter>
+118-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+119                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+120            </intent-filter>
+121            <intent-filter>
+121-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+122                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+122-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+122-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+123            </intent-filter>
+124            <intent-filter>
+124-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+125                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+125-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+125-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Dominik\.gradle\caches\9.0-milestone-1\transforms\485b2a1f93d291c69761fe482ab09a8f\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+126            </intent-filter>
+127        </receiver>
+128    </application>
+129
+130</manifest>
