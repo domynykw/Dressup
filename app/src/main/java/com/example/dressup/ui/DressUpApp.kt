@@ -201,14 +201,14 @@ private fun DressUpSplashScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF9F6F2)),
+            .background(Color(0xFFF5F3FF)),
         contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.dressup_logo),
             contentDescription = stringResource(id = R.string.accessibility_brand_logo),
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.FillBounds
         )
     }
 }
